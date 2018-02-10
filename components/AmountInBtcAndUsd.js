@@ -1,14 +1,15 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 
-export default (props)=> {
-  return (
+export default ({volBtc, volUsd}) => (
     <View>
-      <Text style={[styles.usdValue, props.volUsd > 0 && styles.isPositive]}>{props.volUsd}</Text>
-      <Text style={styles.itemValue}>{props.volBtc}</Text>
+      <Text style={[styles.usdValue, volUsd > 0 && styles.isPositive]}>
+        {volUsd}
+      </Text>
+      <Text style={styles.itemValue}>{volBtc}</Text>
     </View>
-  ) 
-}
+  )
+
 
 const styles = StyleSheet.create({
   usdValue: {

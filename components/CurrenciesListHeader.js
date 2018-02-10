@@ -4,11 +4,11 @@ import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 export default (props)=> {
   return (
     <View style={styles.container}>
-      <Text style={[styles.text, styles.forName]}>{'Name'}</Text>
-      <Text style={styles.text}>{'Change'}</Text>
-      <Text style={[styles.text, styles.forPercentage]}>{'%'}</Text>
+      <Text style={[styles.text, styles.forName]}>Name</Text>
+      <Text style={styles.text}>Change</Text>
+      <Text style={[styles.text, styles.forPercentage]}>%</Text>
     </View>
-  ) 
+  )
 }
 
 const styles = StyleSheet.create({
@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
   forPercentage: {
     textAlign: 'right',
     paddingRight: 14,
-  } 
+  }
 });
 

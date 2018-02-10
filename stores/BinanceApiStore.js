@@ -5,7 +5,7 @@ const SATOSHI = 0.00000001;
 
 export default class BinanceApiStore {
   constructor(apiKeysStore){
-    this.apiKeysStore = apiKeysStore; 
+    this.apiKeysStore = apiKeysStore;
   }
 
   @observable apiKeysStore;
@@ -22,7 +22,7 @@ export default class BinanceApiStore {
 
   symbolPriceInBtc(symbol, amount) {
     if(symbol == 'BTC'){return amount}
-    const priceInBtc =  this.tickersMap[`${symbol}BTC`] || 1/(this.tickersMap[`BTC${symbol}`])
+    const priceInBtc =  this.tickersMap[`${symbol}BTC`] || 1 / (this.tickersMap[`BTC${symbol}`])
     return (priceInBtc * amount).toFixed(8)
   }
 
@@ -58,14 +58,18 @@ export default class BinanceApiStore {
     const timestamp = Date.now()
     const signature = hmacSHA256('timestamp='+timestamp, this.apiKeysStore.apiSecret)
     const myHeaders = {'X-MBX-APIKEY': this.apiKeysStore.apiKey}
-    const data = await fetch('https://api.binance.com/api/v3/account?timestamp='+timestamp+'&signature='+signature,
-    {headers: myHeaders})
-    .then(res => res.json())
-    .catch(err => console.log(err))
+    const data = await fetch(
+      `https://api.binance.com/api/v3/account?timestamp=${timestamp}&signature=${signature}`,
+      {headers: myHeaders}
+    )
+      .then(res => res.json())
+      .catch(err => console.log(err))
+
     console.log(JSON.stringify(data))
-    if(data.code == -2014){
+
+    if(data.code == -2014) { // TODO: magic number!
       throw data.msg
-    }else{
+    } else {
       this.balances = data.balances;
     }
   }

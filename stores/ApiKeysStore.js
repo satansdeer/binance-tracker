@@ -7,8 +7,8 @@ export default class ApiKeysStore {
 
   async saveApiKeys() {
     try{
-      await AsyncStorage.setItem('@ApiKeysStore:apiKey', this.apiKey); 
-      await AsyncStorage.setItem('@ApiKeysStore:apiSecret', this.apiSecret); 
+      await AsyncStorage.setItem('@ApiKeysStore:apiKey', this.apiKey);
+      await AsyncStorage.setItem('@ApiKeysStore:apiSecret', this.apiSecret);
     } catch(e) {
       console.log(e)
     }
@@ -24,14 +24,14 @@ export default class ApiKeysStore {
 
   @action async loadApiKeys() {
     try {
-      this.apiKey = await AsyncStorage.getItem('@ApiKeysStore:apiKey'); 
-      this.apiSecret = await AsyncStorage.getItem('@ApiKeysStore:apiSecret'); 
+      this.apiKey = await AsyncStorage.getItem('@ApiKeysStore:apiKey');
+      this.apiSecret = await AsyncStorage.getItem('@ApiKeysStore:apiSecret');
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   @computed get apiKeysExist() {
-    return this.apiKey && this.apiSecret
+    return this.apiKey && this.apiSecret;
   }
 }

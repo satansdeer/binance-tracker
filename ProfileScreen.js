@@ -5,8 +5,9 @@ import { inject, observer } from 'mobx-react'
 @inject('apiKeysStore')
 @observer
 export default class ProfileScreen extends React.Component {
-  async updateKeys() {
-    try{
+
+  updateKeys = async () => {
+    try {
       await this.props.apiKeysStore.saveApiKeys()
       this.props.navigation.navigate('Home')
     } catch(e){
@@ -14,27 +15,35 @@ export default class ProfileScreen extends React.Component {
     }
   }
 
+  handleChangeApiKey = apiKey => this.props.apiKeysStore.setApiKey(apiKey)
+  handleChangeApiSecret = apiSecret => this.props.apiKeysStore.setApiSecret(apiSecret)
+  handlePressCancel = () => this.props.navigation.navigate('Home')
+
   render() {
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          onChangeText={(apiKey) => this.props.apiKeysStore.setApiKey(apiKey)}
+          onChangeText={this.handleChangeApiKey}
           value={this.props.apiKeysStore.apiKey}
           placeholder='API_KEY'
         />
+
         <TextInput
           style={styles.input}
-          onChangeText={(apiSecret) => this.props.apiKeysStore.setApiSecret(apiSecret)}
+          onChangeText={this.handleChangeApiSecret}
           value={this.props.apiKeysStore.apiSecret}
           placeholder='API_SECRET'
           placeholderTextColor='#DDBC44'
         />
+
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.button} onPress={this.updateKeys.bind(this)}>
+          <TouchableOpacity style={styles.button} onPress={this.updateKeys}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Home')}>
+
+          <TouchableOpacity style={styles.button} onPress={this.handlePressCancel}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
@@ -76,5 +85,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
-
 

@@ -1,13 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 
-export default (props)=> {
-  return (
-    <View style={props.value > 0 ? styles.containerPositive : styles.containerNegative}>
-      <Text style={styles.value}>{`${props.value}%`}</Text>
+export default ({value}) => (
+    <View style={value > 0 ? styles.containerPositive : styles.containerNegative}>
+      <Text style={value}>{value}%</Text>
     </View>
-  ) 
-}
+  )
+
 
 const styles = StyleSheet.create({
   containerPositive: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { inject, observer } from 'mobx-react'
 import SymbolAndAmount from './components/SymbolAndAmount'
@@ -8,35 +8,39 @@ import CurrenciesListHeader from './components/CurrenciesListHeader'
 
 @inject('apiKeysStore', 'binanceApiStore')
 @observer
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends Component {
+  randomValue = Math.ceil(Math.random()*100)-50;
   async componentDidMount() {
-    await this.props.apiKeysStore.loadApiKeys()
+    const {apiKeysStore, binanceApiStore, navigation} = this.props;
+    await apiKeysStore.loadApiKeys();
     try{
-      await this.props.binanceApiStore.loadBookTickers()
-      await this.props.binanceApiStore.loadAccountData()
+      await binanceApiStore.loadBookTickers();
+      await binanceApiStore.loadAccountData();
     }catch(e){
-      this.props.navigation.navigate('Profile')
+      navigation.navigate('Profile');
     }
   }
 
   render() {
+    const {binanceApiStore, navigation} = this.props;
+
     return (
       <View style={styles.container}>
         <CurrenciesListHeader />
         <FlatList
           style={styles.list}
-          data={this.props.binanceApiStore.computedBalances}
+          data={binanceApiStore.computedBalances}
           keyExtractor={item => item.asset}
           renderItem={({item}) =>
-            <View style={styles.item}>
-              <SymbolAndAmount style={styles.itemSection} item={item} />
-              <AmountInBtcAndUsd style={styles.itemSection} volUsd={item.usdPrice} volBtc={item.btcPrice} />
-              <ChangePercentage value={Math.ceil(Math.random()*100)-50} style={styles.itemSection} />
-            </View>
+              <View style={styles.item}>
+                <SymbolAndAmount style={styles.itemSection} item={item} />
+                <AmountInBtcAndUsd style={styles.itemSection} volUsd={item.usdPrice} volBtc={item.btcPrice} />
+                <ChangePercentage value={this.randomValue} style={styles.itemSection} />
+              </View>
             }
         />
-        <TouchableOpacity style={styles.secretsButton} onPress={()=> this.props.navigation.navigate('Profile')} >
-          <Text style={styles.secretsButtonText}>{'Set API_KEY & API_SECRET'}</Text>
+        <TouchableOpacity style={styles.secretsButton} onPress={()=> navigation.navigate('Profile')} >
+          <Text style={styles.secretsButtonText}>Set API_KEY & API_SECRET</Text>
         </TouchableOpacity>
       </View>
     );
